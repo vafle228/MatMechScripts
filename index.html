@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Hamming</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+	<style>
+		.content {
+			margin: 10px;
+		}
+
+		.row {
+			width: 100%;
+			margin-bottom: 10px;
+		}
+
+		input[type="text"] {
+			background: #fff;
+			border: 1px solid #cbcbcb;
+			font-family: Arial;
+			font-size: 14px;
+			max-width: 100%;
+			outline: none;
+			padding: 2px 10px;
+			width: 10%;
+			box-shadow: none;
+			border-radius: 5px;
+			margin-bottom: 5px;
+		}
+
+		input[type="button"] {
+			font-weight: bold;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+		label {
+			display: block;
+			font-weight: normal;
+			padding: 2px;
+		}
+	</style>
+	
+	<div class="content">
+		<h1>Hamming</h1>
+
+		<div class="row">
+			<label>Original message</label>
+			<input type='text' id='msg' maxlength='4' onkeyup="validate(event)">
+			<button onclick="code()">Encode</button>
+		</div>
+
+		<div class="row">
+			<label>Decoded/Encoded message</label>
+			<input type="text" id="result" maxlength="7" disabled/>
+		</div>
+
+		<div class="row">
+			<label>Message to decoded</label>
+			<input type="text" id="code" maxlength="7" onkeyup="validate(event)" />
+			<button onclick="decode()">Decode</button>
+		</div>
+	</div>
+
+	<script src="utils.js"></script>
+	<script src="main.js"></script>
+
+	<script>
+		function code() {
+			const message = document.getElementById('msg').value;
+			document.getElementById("result").value = encodeMsg(message);
+		}
+
+		function decode() {
+			const message = document.getElementById('code').value;
+			document.getElementById("result").value = decodeMsg(message);
+		}
+
+		function validate(event) {
+			const msg = event.target.value;
+			const entered_symb = msg[msg.length - 1];
+
+			event.target.value = entered_symb === "0" || entered_symb === "1" ? msg : msg.substr(0, msg.length - 1);
+		}
+	</script>
+</body>
+
+</html>
