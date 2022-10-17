@@ -28,6 +28,8 @@ function HaffmanAlg(text) {
         nodes.sort((node1, node2) => node1 - node2);
     }
 
+    if (nodes[0].children == null)
+        return Array([nodes[0].name, "0"])
     return getCodes(nodes[0]);
 }
 
