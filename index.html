@@ -55,8 +55,13 @@
 		</div>
 
 		<div class="row">
-			<label>Decoded/Encoded message</label>
-			<input type="text" id="result" maxlength="7" disabled/>
+			<label>Encoded message</label>
+			<input type="text" id="en-result" maxlength="7" disabled/>
+		</div>
+
+		<div class="row">
+			<label>Decoded message</label>
+			<input type="text" id="de-result" maxlength="7" disabled/>
 		</div>
 
 		<div class="row">
@@ -72,12 +77,12 @@
 	<script>
 		function code() {
 			const message = document.getElementById('msg').value;
-			document.getElementById("result").value = encodeMsg(message);
+			document.getElementById("en-result").value = encodeMsg(message);
 		}
 
 		function decode() {
 			const message = document.getElementById('code').value;
-			document.getElementById("result").value = decodeMsg(message);
+			document.getElementById("de-result").value = decodeMsg(message);
 		}
 
 		function validate(event) {
