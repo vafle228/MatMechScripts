@@ -31,7 +31,7 @@ const RubyKarpHash = require("./HashFunctions/rubykarphash");
 const BruteForceHash = require("./HashFunctions/bruteforcehash");
 
 let count_time = false;
-let substr_count = Infinity
+let substr_count = Infinity;
 let print_collisions = false;
 
 let i = 1, is_still_flags = true;
