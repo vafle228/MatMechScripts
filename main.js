@@ -47,9 +47,6 @@ while (is_still_flags){
 
 const [hash_code, str_file, substr_file] = [...process.argv.slice(i)];
 
-let collisions = 0;
-let start_time = new Date().getTime();
-
 const string = fs.readFileSync(str_file, "utf-8");
 const sub_string = fs.readFileSync(substr_file, "utf-8");
 
@@ -60,6 +57,9 @@ const hash_object = {
 }[hash_code] || BruteForceHash;
 
 const substr_finder = substringFindWrapper(hash_object, string, sub_string);
+
+let collisions = 0;
+let start_time = new Date().getTime();
 
 while (substr_count > 0){
     let result = substr_finder();
