@@ -10,7 +10,6 @@ class BinaryConverter {
     }
 
     static convertToDecimal(int_part, float_part = Array()) {
-        console.log(float_part)
         return (
             BinaryConverter._convertBinToInt(int_part) +
             BinaryConverter._convertBinToFloat(float_part)

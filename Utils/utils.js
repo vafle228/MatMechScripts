@@ -11,7 +11,22 @@ function binaryLog(number) {
     return Math.log(number) / Math.log(2);
 }
 
+function arrayFill(length, array) {
+    if (array.length >= length) array.length = length;
+    for (let i = array.length; i < length; i++) array.push(0);
+    return array;
+}
+
+function arrayPreFill(length, array) {
+    if (array.length >= length) array.length = length;
+    for (let i = array.length; i < length; i++) array.unshift(0);
+    return array;
+}
+
+
 module.exports = {
     binaryLog,
     compareArrays,
+    arrayFill,
+    arrayPreFill,
 };
