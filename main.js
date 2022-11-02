@@ -1,12 +1,48 @@
 const NormalFloat = require("./Float/normalfloat");
-const float = new NormalFloat(12);
+const { Zero, Inf, Nan } = require("./Float/constants");
 
-console.log(float._power, float._mantisa)
+const BinaryFloat = require("./Binary/binaryfloat");
+const BinaryConverter = require("./Binary/binary");
+
+// const [i1, f1] = [...BinaryConverter.convertToBin(0.1)];
+// f1.length = 54;
+
+// const [i2, f2] = [...BinaryConverter.convertToBin(0.2)];
+// f2.length = 54;
+
+// console.log(
+//     BinaryConverter.convertToDecimal(
+//         ...BinaryFloat.sumBinaryFloats(i1, f1, i2, f2)
+//     )
+// );
+
+const float = new NormalFloat(0.1);
+
+// const f = BinaryConverter.convertToBin(0.3)[1]
+
+// console.log(f.join(""))
+
+// 0.1
+// 1.10011001100110011001100
+// 1.100110011001100110011001100110011001100110011001101
+
+
+// 0.3
+// 1.00110011001100110011010
+// 1.00110011001100110011001
+// 1.00110011001100110011001
+// 1.0011001100110011001100110011001100110011001100110011
+
+
+// FUCK
+// https://digitrain.ru/articles/511208/
 
 console.log(float.toDecimal());
+console.log(float._sign, float.power, float._mantisa);
+
+// console.log(new Nan(12).toDecimal());
 
 // .11001101
-
 
 // Парсер команд
 // Исполнение команд
@@ -15,7 +51,6 @@ console.log(float.toDecimal());
 // Арифметика:
 // Sub + sub || normal + normal || sub + normal
 // Sub - sub || nomral - normal || normal - sub (sign depends on greater one)
-
 
 // max(nf1.pow, nf2.pow) -> min(nf1, nf2) / (max_pow - min_pow) -> math
 

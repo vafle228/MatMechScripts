@@ -8,6 +8,7 @@ function compareArrays(arr1, arr2) {
 }
 
 function binaryLog(number) {
+    if (number === 0) return 0;
     return Math.log(number) / Math.log(2);
 }
 
@@ -22,7 +23,6 @@ function arrayPreFill(length, array) {
     for (let i = array.length; i < length; i++) array.unshift(0);
     return array;
 }
-
 
 module.exports = {
     binaryLog,

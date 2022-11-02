@@ -6,10 +6,16 @@ const { arrayFill, arrayPreFill } = require("../Utils/utils");
 const { POWER_OFFSET, POWER_LEN, MANTISA_LEN } = require("../Utils/constants");
 
 class FloatBase {
-    constructor(sign, power, number) {
+    constructor(sign, power, mantisa) {
         this._sign = sign;
-        this._initPower(power);
-        this._initMantisa(number, power);
+        
+        power instanceof Array
+            ? this._power = arrayPreFill(POWER_LEN, power)
+            : this._initPower(power);
+        
+        mantisa instanceof Array 
+            ? this._mantisa = arrayFill(MANTISA_LEN, mantisa)
+            : this._initMantisa(mantisa, this.power - POWER_OFFSET);
     }
 
     get power() {
