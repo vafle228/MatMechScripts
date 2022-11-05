@@ -12,7 +12,7 @@ function substringFindWrapper(hash_object, string, sub_string) {
                   )
                 : hash_object.hash(string.substr(i, sub_string.length));
 
-            if (str_hash == substr_hash) {
+            if (str_hash === substr_hash) {
                 for (let j = 0; j < sub_string.length; j++) {
                     if (string[j + i] !== sub_string[j]) break;
                     if (j + 1 === sub_string.length) return i++;
