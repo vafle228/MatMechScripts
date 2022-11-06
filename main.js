@@ -1,14 +1,13 @@
 const NormalFloat = require("./Float/normalfloat");
 const { Zero, Inf, Nan } = require("./Float/constants");
+const Float = require("./Float/float");
 
 const BinaryFloat = require("./Binary/binaryfloat");
 const BinaryConverter = require("./Binary/binary");
 
-// const [i1, f1] = [...BinaryConverter.convertToBin(0.1)];
-// f1.length = 54;
+const { binaryLog } = require("./Utils/utils");
 
-// const [i2, f2] = [...BinaryConverter.convertToBin(0.2)];
-// f2.length = 54;
+
 
 // console.log(
 //     BinaryConverter.convertToDecimal(
@@ -16,7 +15,8 @@ const BinaryConverter = require("./Binary/binary");
 //     )
 // );
 
-const float = new NormalFloat(0.1);
+const float = new Float(0.1 + 0.2);
+console.log(float.toDecimal())
 
 // const f = BinaryConverter.convertToBin(0.3)[1]
 
@@ -24,21 +24,25 @@ const float = new NormalFloat(0.1);
 
 // 0.1
 // 1.10011001100110011001100
+// 1.10011001100110011001101
+// 1.10011001100110011001101
+// 1.10011001100110011001101
+// 1.10011001100110011001101
 // 1.100110011001100110011001100110011001100110011001101
 
 
 // 0.3
 // 1.00110011001100110011010
-// 1.00110011001100110011001
-// 1.00110011001100110011001
+// 1.00110011001100110011010
+// 1.00110011001100110011010
 // 1.0011001100110011001100110011001100110011001100110011
 
 
 // FUCK
 // https://digitrain.ru/articles/511208/
 
-console.log(float.toDecimal());
-console.log(float._sign, float.power, float._mantisa);
+// console.log(float.toDecimal());
+// console.log(float._sign, float.power, float._mantisa);
 
 // console.log(new Nan(12).toDecimal());
 

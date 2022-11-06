@@ -1,24 +1,18 @@
-const FloatBase = require("./floatbase");
-
 const BinaryConverter = require("../Binary/binary");
 const BinaryFloat = require("../Binary/binaryfloat");
+
+const FloatBase = require("./floatbase");
+const NormalFloat = require("./normalfloat");
 
 const { arrayFill, arrayPreFill, binaryLog } = require("../Utils/utils");
 
 const { POWER_OFFSET, POWER_LEN, MANTISA_LEN } = require("../Utils/constants");
 
-class NormalFloat extends FloatBase {
+class Float {
     constructor(number) {
         const sign = number > 0 ? 0 : 1;
         const mantisa = Math.abs(number);
-        
-        const power = Math.min(POWER_OFFSET + 1, Math.floor(binaryLog(mantisa)));
-        
-        super(sign, NormalFloat._initPower(power), NormalFloat._initMantisa(mantisa, power));
-    }
-
-    toDecimal() {
-        return super.toDecimal(1)
+        const power = Math.min(128, Math.floor(binaryLog(mantisa)));
     }
 
     static _initMantisa(number, power) {
@@ -39,4 +33,4 @@ class NormalFloat extends FloatBase {
     }
 }
 
-module.exports = NormalFloat;
+module.exports = Float;
