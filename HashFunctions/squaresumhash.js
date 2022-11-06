@@ -4,7 +4,7 @@ class SquareSumHash extends IHash {
     static hash(string) {
         let hash = 0;
         for (let i = 0; i < string.length; i++) 
-            hash += string.charCodeAt(i);
+            hash += Math.pow(string.charCodeAt(i), 2);
         return hash;
     }
 
