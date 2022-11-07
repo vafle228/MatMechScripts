@@ -1,4 +1,4 @@
-const { arrayPreFill } = require("../Utils/utils");
+const { arrayPreFill, arrayFill } = require("../Utils/utils");
 
 class BinaryFloat {
     static expMultiply(int_part, float_part, power) {
@@ -21,8 +21,8 @@ class BinaryFloat {
     static sumBinaryFloats(int_part1, float_part1, int_part2, float_part2) {
         const offset = Math.max(float_part1.length, float_part2.length);
         const summary = BinaryFloat._sumBinNumbers(
-            int_part1.concat(arrayPreFill(offset, float_part1)),
-            int_part2.concat(arrayPreFill(offset, float_part2))
+            int_part1.concat(arrayFill(offset, float_part1)),
+            int_part2.concat(arrayFill(offset, float_part2))
         );
         return BinaryFloat.expDivide(summary, [], offset);
     }

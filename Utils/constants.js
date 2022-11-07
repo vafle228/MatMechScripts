@@ -2,8 +2,17 @@ const POWER_OFFSET = 127;
 const POWER_LEN = 8;
 const MANTISA_LEN = 23;
 
+const NORMAL_DOWN = 2 ** (-(POWER_OFFSET - 1))
+const NORMAL_UP = (2 - 2 ** (-MANTISA_LEN)) * 2 ** (POWER_OFFSET)
+
+const SUBNORMAL_DOWN = 2 ** (-(POWER_OFFSET + MANTISA_LEN - 1))
+const SUBNORMAL_UP = (1 - 2 ** (-MANTISA_LEN)) * 2 ** (-(POWER_OFFSET - 1))
+
 module.exports = {
     POWER_OFFSET,
     POWER_LEN,
     MANTISA_LEN,
+
+    NORMAL_DOWN, NORMAL_UP,
+    SUBNORMAL_DOWN, SUBNORMAL_UP,
 };

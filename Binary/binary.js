@@ -4,8 +4,8 @@ class BinaryConverter {
         const float_part = number - int_part;
 
         return [
-            BinaryConverter._convertInt(int_part),
-            BinaryConverter._convertFloat(float_part),
+            BinaryConverter._convertIntToBin(int_part),
+            BinaryConverter._convertFloatToBin(float_part),
         ];
     }
 
@@ -30,7 +30,7 @@ class BinaryConverter {
         return result;
     }
 
-    static _convertInt(integer) {
+    static _convertIntToBin(integer) {
         const bin_int = Array();
 
         while (integer !== 0) {
@@ -40,7 +40,7 @@ class BinaryConverter {
         return bin_int;
     }
 
-    static _convertFloat(float) {
+    static _convertFloatToBin(float) {
         const bin_float = Array();
 
         while (float !== 0) {

@@ -1,7 +1,13 @@
 const Float = require("./Float/float");
 
-const float = new Float(0.3);
-console.log(float.toDecimal())
+// const f1 = [0, [1, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 1, 1, 1, 1]];
+// const f2 = [0, [1, 0, 0, 0, 0, 0, 1, 1], [0, 1, 0, 0, 1]];
+
+const float1 = new Float(6);
+const float2 = new Float(12);
+
+console.log(float1.add(float2).toDecimal());
+
 
 // 0.1
 // 1.10011001100110011001100

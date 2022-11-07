@@ -7,10 +7,14 @@ const BinaryFloat = require("../Binary/binaryfloat");
 const { arrayFill, arrayPreFill, binaryLog } = require("../Utils/utils");
 
 const { POWER_OFFSET, POWER_LEN, MANTISA_LEN } = require("../Utils/constants");
+const { NORMAL_DOWN, NORMAL_UP, SUBNORMAL_DOWN, SUBNORMAL_UP } = require("../Utils/constants");
 
 class Float {
     constructor(number) {
-        switch (isNaN(number) || number) {
+        number = number instanceof Array 
+            ? number : Float._checkRange(number);
+
+        switch ((isNaN(number) && !(number instanceof Array)) || number) {
             case 0: this._float = new ZeroFloat(); break;
             case true: this._float = new NanFloat(); break;
             case Infinity: this._float = new InfinityFloat(0); break;
@@ -21,6 +25,17 @@ class Float {
     }
 
     toDecimal() { return this._float.toDecimal(); }
+
+    add(other) { return new Float(this._float.add(other._float)); }
+
+    static _checkRange(number) {
+        const num = Math.abs(number);
+
+        const in_normal_range = NORMAL_DOWN <= num && num <= NORMAL_UP;
+        const in_subnormal_range = SUBNORMAL_DOWN <= num && num <= SUBNORMAL_UP;
+        
+        return in_normal_range || in_subnormal_range ? number : Infinity * number;
+    }
 
     static _initNumber(number) {
         const [sign, power, mantisa] = number instanceof Array 
