@@ -1,8 +1,8 @@
+const { NormalFloat, SubNormalFloat } = require("./floattypes");
+const { ZeroFloat, InfinityFloat, NanFloat } = require("./floattypes");
+
 const BinaryConverter = require("../Binary/binary");
 const BinaryFloat = require("../Binary/binaryfloat");
-
-const FloatBase = require("./floatbase");
-const NormalFloat = require("./normalfloat");
 
 const { arrayFill, arrayPreFill, binaryLog } = require("../Utils/utils");
 
@@ -10,9 +10,33 @@ const { POWER_OFFSET, POWER_LEN, MANTISA_LEN } = require("../Utils/constants");
 
 class Float {
     constructor(number) {
+        switch (isNaN(number) || number) {
+            case 0: this._float = new ZeroFloat(); break;
+            case true: this._float = new NanFloat(); break;
+            case Infinity: this._float = new InfinityFloat(0); break;
+            case -Infinity: this._float = new InfinityFloat(1); break;
+
+            default: this._float = Float._initNumber(number); break;
+        }
+    }
+
+    toDecimal() { return this._float.toDecimal(); }
+
+    static _initNumber(number) {
+        const [sign, power, mantisa] = number instanceof Array 
+            ? [...number] : [...this._convertNumber(number)];
+        
+        if (power.includes(1))
+            return new NormalFloat(sign, power, mantisa);
+        return new SubNormalFloat(sign, power, mantisa);
+    }
+
+    static _convertNumber(number) {
         const sign = number > 0 ? 0 : 1;
-        const mantisa = Math.abs(number);
-        const power = Math.min(128, Math.floor(binaryLog(mantisa)));
+        const num_mantisa = Math.abs(number);
+        const power = Math.max(-POWER_OFFSET, Math.floor(binaryLog(num_mantisa)));
+
+        return [sign, this._initPower(power), this._initMantisa(num_mantisa, power)];
     }
 
     static _initMantisa(number, power) {

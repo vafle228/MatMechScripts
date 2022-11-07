@@ -1,26 +1,7 @@
-const NormalFloat = require("./Float/normalfloat");
-const { Zero, Inf, Nan } = require("./Float/constants");
 const Float = require("./Float/float");
 
-const BinaryFloat = require("./Binary/binaryfloat");
-const BinaryConverter = require("./Binary/binary");
-
-const { binaryLog } = require("./Utils/utils");
-
-
-
-// console.log(
-//     BinaryConverter.convertToDecimal(
-//         ...BinaryFloat.sumBinaryFloats(i1, f1, i2, f2)
-//     )
-// );
-
-const float = new Float(0.1 + 0.2);
+const float = new Float(0.3);
 console.log(float.toDecimal())
-
-// const f = BinaryConverter.convertToBin(0.3)[1]
-
-// console.log(f.join(""))
 
 // 0.1
 // 1.10011001100110011001100
