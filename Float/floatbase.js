@@ -18,13 +18,15 @@ class FloatBase {
 
     add(this_bit, other, other_bit) {
         const power_delta = Math.abs(this.power - other.power);
-
         if (power_delta > MANTISA_LEN)
-            return this.power > other.power ? this : other;
+            return this.power > other.power
+                ? [this._sign, this._power, this._mantisa]
+                : [other._sign, other._power, other._mantisa];
         if (this._sign !== other._sign) return this.substract(other);
 
         const first_bigger = Math.max(this.power, other.power) === this.power;
 
+        // TODO: Copy arrays + code clean
         const [int1, float1] = [...BinaryFloat.expDivide(
             [this_bit], this._mantisa, first_bigger ? 0 : power_delta)];
         
@@ -45,7 +47,7 @@ class FloatBase {
         const [int, float] = [...(power >= 0
             ? BinaryFloat.expMultiply([this_bit], this._mantisa.slice(), power)
             : BinaryFloat.expDivide([this_bit], this._mantisa.slice(), -power))];
-        return BinaryConverter.convertToDecimal(int, float);
+        return BinaryConverter.convertToDecimal(int, float) * Math.pow(-1, this._sign);
     }
 
     static _updateFloatValue(sign, power, int_part, float_part) {
