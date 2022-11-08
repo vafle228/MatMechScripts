@@ -3,8 +3,8 @@ const Float = require("./Float/float");
 // const f1 = [0, [1, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 1, 1, 1, 1]];
 // const f2 = [0, [1, 0, 0, 0, 0, 0, 1, 1], [0, 1, 0, 0, 1]];
 
-const float1 = new Float(6);
-const float2 = new Float(12);
+const float1 = new Float(0.2);
+const float2 = new Float(0.1);
 
 console.log(float1.add(float2).toDecimal());
 

@@ -33,7 +33,9 @@ class FloatBase {
         
         const [res_int, res_float] = [...BinaryFloat.sumBinaryFloats(int1, float1, int2, float2)];
 
-        return FloatBase._updateFloatValue(this._sign, this._power, res_int, res_float);
+        return FloatBase._updateFloatValue(this._sign, 
+            first_bigger ? this._power : other._power, 
+            res_int, res_float);
     }
 
     substract(other) {}
@@ -47,9 +49,10 @@ class FloatBase {
     }
 
     static _updateFloatValue(sign, power, int_part, float_part) {
-        const [int, float] = BinaryFloat.expDivide(int_part, float_part, 1);
-        const [new_power, ] = [...BinaryFloat.sumBinaryFloats(power, [], int, [])];
-
+        const [int, float] = [...BinaryFloat.expDivide(
+            int_part.slice(), float_part, int_part.length - 1)];
+        const [new_power, ] = [...BinaryFloat.sumBinaryFloats(
+            power, [], [int_part.length - 1], [])];
         return [sign, new_power, BinaryFloat.roundBinNumber(float, MANTISA_LEN)];
     }
 }
