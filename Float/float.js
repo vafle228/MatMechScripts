@@ -28,6 +28,10 @@ class Float {
 
     add(other) { return new Float(this._float.add(other._float)); }
 
+    isLess(other) { return this._float.isLess(other._float); }
+
+    isEqual(other) { return this._float.isEqual(other._float); }
+
     static _checkRange(number) {
         const num = Math.abs(number);
 

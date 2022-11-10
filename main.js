@@ -1,12 +1,17 @@
 const Float = require("./Float/float");
 
-// const f1 = [0, [1, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 1, 1, 1, 1]];
-// const f2 = [0, [1, 0, 0, 0, 0, 0, 1, 1], [0, 1, 0, 0, 1]];
+const BinaryFloat = require("./Binary/binaryfloat");
+const { arrayPreFill, arrayFill } = require("./Utils/utils");
 
-const float1 = new Float(255);
-const float2 = new Float(1);
 
-console.log(float1.add(float2).toDecimal());
+let [a, b] = [1, 2];
+const f1 = new Float(a);
+const f2 = new Float(b);
+
+console.log(f1.isEqual(f2))
+
+// console.log(f1.add(f2).toDecimal())
+// console.log(new Float(a + b).toDecimal())
 
 
 // 0.1

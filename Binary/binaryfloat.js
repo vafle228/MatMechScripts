@@ -13,9 +13,13 @@ class BinaryFloat {
         return [int_part, float_part];
     }
 
-    static subBinaryFloats(bin_float1, bin_float2) {
-        let [int_part1, float_part1] = [...bin_float1];
-        let [int_part2, float_part2] = [...bin_float2];
+    static subBinaryFloats(int_part1, float_part1, int_part2, float_part2) {
+        const offset = Math.max(float_part1.length, float_part2.length);
+        const summary = BinaryFloat._subBinNumbers(
+            int_part1.concat(arrayFill(offset, float_part1)),
+            int_part2.concat(arrayFill(offset, float_part2))
+        );
+        return BinaryFloat.expDivide(summary, [], offset);
     }
 
     static sumBinaryFloats(int_part1, float_part1, int_part2, float_part2) {
@@ -37,6 +41,21 @@ class BinaryFloat {
             ? less : BinaryFloat.sumBinaryFloats(less, [], ulp, [])[0]
     }
 
+    static compareBinNumbers(arr1, arr2, break_func, compare_func) {
+        if (arr1.length > arr2.length)
+            arr2 = arrayPreFill(arr1.length, arr2);
+
+        if (arr1.length < arr2.length)
+            arr1 = arrayPreFill(arr2.length, arr1);
+        
+        let i = 0;
+        for (i = 0; i < arr1.length - 1; i++){
+            if (break_func(arr1[i], arr2[i])) break;
+            if (compare_func(arr1[i], arr2[i])) return true;
+        } 
+        return compare_func(arr1[i], arr2[i]);
+    }
+
     static _sumBinNumbers(arr1, arr2) {
         if (arr1.length > arr2.length)
             arr2 = arrayPreFill(arr1.length, arr2);
@@ -51,6 +70,22 @@ class BinaryFloat {
             additional = Math.floor((arr1[i] + arr2[i] + additional) / 2);
         }
         if (additional) result.unshift(additional); return result;
+    }
+
+    static _subBinNumbers(arr1, arr2) {  // Works if arr1 > arr2
+        if (arr1.length > arr2.length)
+            arr2 = arrayPreFill(arr1.length, arr2);
+    
+        if (arr1.length < arr2.length)
+            arr1 = arrayPreFill(arr2.length, arr1);
+        
+        let loan = 0;
+        const result = new Array(arr1.length);
+        for (let i = arr1.length - 1; i >= 0; i--) {
+            const sub_val = arr1[i] - loan - arr2[i];
+            [result[i], loan] = sub_val >= 0 ? [sub_val, 0] : [sub_val + 2, 1];
+        }
+        return result;
     }
 }
 
