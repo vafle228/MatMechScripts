@@ -15,16 +15,15 @@ class FloatBase {
     get power() { return BinaryConverter.convertToDecimal(this._power); }
 
     add(this_bit, other, other_bit) {
+        const first_bigger = !this.isLess(other);
         const power_delta = Math.abs(this.power - other.power);
+        
         if (power_delta > MANTISA_LEN)
-            return this.power > other.power
+            return first_bigger
                 ? [this._sign, this._power, this._mantisa]
                 : [other._sign, other._power, other._mantisa];
         
-        if (this._sign !== other._sign) 
-            return this.substract(this_bit, other, other_bit);
-
-        const first_bigger = Math.max(this.power, other.power) === this.power;
+        if (this._sign !== other._sign) return this.substract(other);
         
         const bigger_power = first_bigger ? this._power : other._power;
         const [res_int, res_float] = [...BinaryFloat.sumBinaryFloats(
@@ -35,26 +34,29 @@ class FloatBase {
     }
 
     substract(this_bit, other, other_bit) {
+        if (this.isEqual(other)) return 0;
+
+        const first_bigger = !this.isLess(other);
         const power_delta = Math.abs(this.power - other.power);
+        
         if (power_delta > MANTISA_LEN)
-            return this.power > other.power
+            return first_bigger
                 ? [this._sign, this._power, this._mantisa]
                 : [(other._sign + 1) % 2, other._power, other._mantisa];  // unary minus
         
-        if (this._sign !== other._sign)
-            return this.add(this_bit, other.unaryMinus(), other_bit);
+        if (this._sign !== other._sign) return this.add(other.unaryMinus());
         
-        const first_bigger = Math.max(this.power, other.power) === this.power;
-        const bigger_power = first_bigger ? this._power : other._power;
+        const [bigger_power, bigger_sign]  = first_bigger 
+            ? [this._power, this._sign] : [other._power, (other._sign + 1) % 2];
         
         const [int1, float1, int2, float2] = [
             ...FloatBase._getBinaryFloat([this_bit], this._mantisa, first_bigger ? 0 : -power_delta), 
             ...FloatBase._getBinaryFloat([other_bit], other._mantisa, first_bigger ? -power_delta : 0)];
-
+        
         const [res_int, res_float] = [...(first_bigger
             ? BinaryFloat.subBinaryFloats(int1, float1, int2, float2)
             : BinaryFloat.subBinaryFloats(int2, float2, int1, float1))];
-        return FloatBase._normalizeResult(res_int, res_float, bigger_power)      
+        return FloatBase._normalizeResult(bigger_sign, bigger_power, res_int, res_float)      
     }
 
     toDecimal(this_bit) {
@@ -64,28 +66,28 @@ class FloatBase {
         ) * Math.pow(-1, this._sign);
     }
 
-    unaryMinus() { return Object.assign({_sign: (this._sign + 1) % 2}, this); }
+    unaryMinus() { 
+        const this_copy = Object.assign({}, this);
+        
+        this_copy.__proto__ = this.__proto__;
+        this_copy._sign = (this_copy._sign + 1) % 2;
+        
+        return this_copy;
+    }
 
     isEqual(other) {
-        const compare_func = (el1, el2) => el1 === el2;
-        
-        const power_equal = BinaryFloat.compareBinNumbers(this._power, other._power, compare_func);
-        const mantisa_equal = BinaryFloat.compareBinNumbers(this._mantisa, other._mantisa, compare_func);
+        const power_equal = BinaryFloat.isBinNumbersEqual(this._power, other._power);
+        const mantisa_equal = BinaryFloat.isBinNumbersEqual(this._mantisa, other._mantisa);
 
         return power_equal && mantisa_equal;
     }
 
     isLess(other) {
-        const break_func = (el1, el2) => el1 > el2;
-        const compare_func = (el1, el2) => el1 < el2;
-        
-        const power_less = BinaryFloat.compareBinNumbers(
-            this._power, other._power, break_func, compare_func);
-        
-        const mantisa_less = !BinaryFloat.compareBinNumbers(
-            this._mantisa, other._mantisa, compare_func);
+        const power_equal = BinaryFloat.isBinNumbersEqual(this._power, other._power);
+        const power_less = BinaryFloat.isBinNumberLess(this._power, other._power);
+        const mantisa_less = BinaryFloat.isBinNumberLess(this._mantisa, other._mantisa);
 
-        return power_less && mantisa_less && !this.isEqual(other);
+        return power_less || (mantisa_less && power_equal);
     }
 
     static _normalizeResult(sign, power, int_part, float_part) {
@@ -94,7 +96,7 @@ class FloatBase {
         const [, float] = [...FloatBase._getBinaryFloat(int_part, float_part, offset)]
         const [new_power, ] = [...(offset <= 0
             ? BinaryFloat.sumBinaryFloats(power, [], ...BinaryConverter.convertToBin(-offset))
-            : BinaryFloat.subBinaryFloats(power, [], ...BinaryConverter.convertToBin(-offset)))];
+            : BinaryFloat.subBinaryFloats(power, [], ...BinaryConverter.convertToBin(offset)))];
         return [sign, new_power, BinaryFloat.roundBinNumber(float, MANTISA_LEN)];
     }
 

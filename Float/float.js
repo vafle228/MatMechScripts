@@ -11,8 +11,7 @@ const { NORMAL_DOWN, NORMAL_UP, SUBNORMAL_DOWN, SUBNORMAL_UP } = require("../Uti
 
 class Float {
     constructor(number) {
-        number = number instanceof Array 
-            ? number : Float._checkRange(number);
+        number = number instanceof Array ? number : Float._checkRange(number);
 
         switch ((isNaN(number) && !(number instanceof Array)) || number) {
             case 0: this._float = new ZeroFloat(); break;
@@ -28,12 +27,16 @@ class Float {
 
     add(other) { return new Float(this._float.add(other._float)); }
 
+    substract(other) { return new Float(this._float.substract(other._float)); }
+
     isLess(other) { return this._float.isLess(other._float); }
 
     isEqual(other) { return this._float.isEqual(other._float); }
 
     static _checkRange(number) {
         const num = Math.abs(number);
+
+        if (num === 0) return 0;  // Special value
 
         const in_normal_range = NORMAL_DOWN <= num && num <= NORMAL_UP;
         const in_subnormal_range = SUBNORMAL_DOWN <= num && num <= SUBNORMAL_UP;

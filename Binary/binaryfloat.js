@@ -41,51 +41,54 @@ class BinaryFloat {
             ? less : BinaryFloat.sumBinaryFloats(less, [], ulp, [])[0]
     }
 
-    static compareBinNumbers(arr1, arr2, break_func, compare_func) {
-        if (arr1.length > arr2.length)
-            arr2 = arrayPreFill(arr1.length, arr2);
-
-        if (arr1.length < arr2.length)
-            arr1 = arrayPreFill(arr2.length, arr1);
+    static isBinNumbersEqual(num1, num2) {
+        [num1, num2] = BinaryFloat._alignBinNums(num1, num2);
         
-        let i = 0;
-        for (i = 0; i < arr1.length - 1; i++){
-            if (break_func(arr1[i], arr2[i])) break;
-            if (compare_func(arr1[i], arr2[i])) return true;
-        } 
-        return compare_func(arr1[i], arr2[i]);
+        for (let i = 0; i < num1.length; i++)
+            if (num1[i] !== num2[i]) return false;
+        return true;
     }
 
-    static _sumBinNumbers(arr1, arr2) {
-        if (arr1.length > arr2.length)
-            arr2 = arrayPreFill(arr1.length, arr2);
+    static isBinNumberLess(num1, num2) {
+        [num1, num2] = BinaryFloat._alignBinNums(num1, num2);
+        
+        for (let i = 0; i < num1.length; i++){
+            if (num1[i] < num2[i]) return true;
+            if (num1[i] > num2[i]) return false;
+        }   
+        return false;  // Return false because equal
+    }
 
-        if (arr1.length < arr2.length)
-            arr1 = arrayPreFill(arr2.length, arr1);
-
+    static _sumBinNumbers(num1, num2) {
+        [num1, num2] = BinaryFloat._alignBinNums(num1, num2);
+        
         let additional = 0;
-        const result = new Array(arr1.length);
-        for (let i = arr1.length - 1; i >= 0; i--) {
-            result[i] = (arr1[i] + arr2[i] + additional) % 2;
-            additional = Math.floor((arr1[i] + arr2[i] + additional) / 2);
+        const result = new Array(num1.length);
+        for (let i = num1.length - 1; i >= 0; i--) {
+            result[i] = (num1[i] + num2[i] + additional) % 2;
+            additional = Math.floor((num1[i] + num2[i] + additional) / 2);
         }
         if (additional) result.unshift(additional); return result;
     }
 
-    static _subBinNumbers(arr1, arr2) {  // Works if arr1 > arr2
-        if (arr1.length > arr2.length)
-            arr2 = arrayPreFill(arr1.length, arr2);
-    
-        if (arr1.length < arr2.length)
-            arr1 = arrayPreFill(arr2.length, arr1);
+    static _subBinNumbers(num1, num2) {  // Works if num1 > num2
+        [num1, num2] = BinaryFloat._alignBinNums(num1, num2);
         
         let loan = 0;
-        const result = new Array(arr1.length);
-        for (let i = arr1.length - 1; i >= 0; i--) {
-            const sub_val = arr1[i] - loan - arr2[i];
+        const result = new Array(num1.length);
+        for (let i = num1.length - 1; i >= 0; i--) {
+            const sub_val = num1[i] - loan - num2[i];
             [result[i], loan] = sub_val >= 0 ? [sub_val, 0] : [sub_val + 2, 1];
         }
         return result;
+    }
+
+    static _alignBinNums(num1, num2) {
+        switch (num1.length > num2.length) {
+            case true: num2 = arrayPreFill(num1.length, num2); break;
+            case false: num1 = arrayPreFill(num2.length, num1); break;
+        }
+        return [num1, num2];
     }
 }
 
