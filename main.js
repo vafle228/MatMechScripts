@@ -1,38 +1,6 @@
-// // abc -> a, ab, abc
-// // abcd -> a, ab, abc, abcd
-// const substr = "ababc";
-// const obj = new Object();
+const AutomatonConstructor = require("./Automaton/automatonconstructor");
 
-// for (let i = 0; i < substr.length; i++)
-//     obj[substr.substring(0, i + 1)] = (function() {
-//         const next_step = new Object();
-//         for (let j = 0; j < substr.length; j++) {
-//             const new_char = substr[j];
-//             const current_str = substr.substring(0, i + 1)
-//             const desired_str = substr.substring(0, Math.min(substr.length, i + 2));
-
-//             if (desired_str === current_str + new_char)
-//                 next_step[new_char] = substr.length < i + 2 ? "" : desired_str;
-            
-//             else {
-//                 for (let pos = 1; pos <= current_str.length; pos++) {
-//                     if (pos === current_str.length) { next_step[new_char] = ""; break; }
-
-//                     console.log(current_str.substring(pos));
-                    
-//                     if (obj[current_str.substring(pos) + new_char] !== undefined){
-//                         next_step[new_char] = current_str.substring(pos) + new_char; break;
-//                     }
-//                 }
-//             }
-//         }
-//         return next_step;
-//     })();
-
-// console.log(obj);
-
-// for (let i = 0; i < substr.length; i++)
-//     console.log(`${substr.substring(0, i + 1)}: `, obj[substr.substring(0, i + 1)]);
+const automaton = AutomatonConstructor.constructAutomaton("abaxabaz");
 
 
 // t = "abaxabaz"
