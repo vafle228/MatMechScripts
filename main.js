@@ -1,33 +1,37 @@
+const fs = require("fs");
 const AutomatonConstructor = require("./Automaton/automatonconstructor");
 
-const automaton = AutomatonConstructor.constructAutomaton("abaxabaz");
+let count_time = false;
+let substr_count = Infinity;
+let print_automaton = false;
 
+let i = 1, is_still_flags = true;
+while (is_still_flags){
+    switch (process.argv[++i]){
+        case "-t": count_time = true; break;
+        case "-a": print_automaton = true; break;
+        case "-n": substr_count = +process.argv[++i]; break;
+        
+        default: is_still_flags = false;
+    };
+}
 
-// t = "abaxabaz"
-// m = t.length
-// alph = new Array()
-// //Определяем алфавит строки t
-// for(let i = 0; i<m; i++)
-//     alph[t.charAt(i)] = 0
-// //В двумерном массиве del храним таблицу переходов
-// del=new Array(m+1)
-// for(j=0;j<=m;j++)
-//     del[j]=new Array()
-// //Инициализируем таблицу переходов
-// for(i in alph)
-//     del[0][i]=0
-// //Формируем таблицу переходов
-// for(j=0;j<m;j++){
-//     prev=del[j][t.charAt(j)]
-//     del[j] [t .charAt(j)]=j+1
-//     for(i in alph)
-//         del[j+1][i]=del[prev][i]
-// }
-// //Выводим таблицу переходов
-// for(j=0; j<=m; j++){
-//     out=""
-//     for(i in alph)
-//         out+=del[j] [i] + "";
-//     console.log(out)
-// }
+const [str_file, substr_file] = [...process.argv.slice(i)];
 
+const string = fs.readFileSync(str_file, "utf-8");
+const sub_string = fs.readFileSync(substr_file, "utf-8");
+
+const automaton = AutomatonConstructor.constructAutomaton(sub_string);
+
+const start_time = new Date().getTime();
+
+let count = 0;
+for (let i = 0; i < string.length; i++) {
+    if (count === count_time) break;
+    count += automaton.nextStep(string[i]);
+}
+
+const end_time = new Date().getTime();
+if (count_time) console.log(`Execute Time: ${end_time - start_time}ms`);
+
+if (print_automaton) console.log(`Automaton:\n${automaton.toString()}`);
