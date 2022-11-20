@@ -1,18 +1,15 @@
 class Automaton {
     constructor(automaton, substr) {
-        this._buffer = "";
-        this._substr = substr;
+        this._current_step = 0;
         this._automaton = automaton;
+        this._substr_len = substr.length;
     }
 
     nextStep(letter) {
-        if (this._buffer + letter === this._substr) return 1;
+        const return_val = +(this._current_step === this._substr_len);
+        this._current_step = this._automaton[this._current_step][letter] || 0;
 
-        const step = this._buffer.length
-        const letter_to_go = this._automaton[step][letter] || 0;
-        this._buffer = this._substr.substring(0, letter_to_go);
-
-        return 0;
+        return return_val;
     }
 
     toString() {

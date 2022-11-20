@@ -27,9 +27,11 @@ const start_time = new Date().getTime();
 
 let count = 0;
 for (let i = 0; i < string.length; i++) {
-    if (count === count_time) break;
+    if (count === substr_count) break;
     count += automaton.nextStep(string[i]);
 }
+
+console.log("All entries of substr: ", count)
 
 const end_time = new Date().getTime();
 if (count_time) console.log(`Execute Time: ${end_time - start_time}ms`);
