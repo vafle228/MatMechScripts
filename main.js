@@ -5,10 +5,14 @@ if (num2 !== undefined){
     const float1 = new Float(Number(num1));
     const float2 = new Float(Number(num2));
 
+    let result;
     switch (operator) {
-        case "+": console.log(float1.add(float2).toDecimal()); break;
-        case "-": console.log(float1.substract(float2).toDecimal()); break;
+        case "+": result = float1.add(float2); break;
+        case "-": result = float1.substract(float2); break;
     }
+
+    console.log(result.toString());
+    console.log(result.toDecimal());
 }
 
-else { console.log(new Float(Number(num1)).toDecimal()); }
+else { console.log(new Float(Number(num1)).toString()); }

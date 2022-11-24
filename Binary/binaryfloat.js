@@ -35,7 +35,7 @@ class BinaryFloat {
         const less = bin_number.slice(0, precision);
         const middle = less.slice(); middle.push(1);
         
-        const ulp = Array(precision - 1).fill(0); ulp.push(1);
+        const ulp = new Array(precision - 1).fill(0); ulp.push(1);
 
         return bin_number[bin_number.length - 1] === 0 
             ? less : BinaryFloat.sumBinaryFloats(less, [], ulp, [])[0]

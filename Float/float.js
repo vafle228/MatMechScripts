@@ -33,6 +33,8 @@ class Float {
 
     isEqual(other) { return this._float.isEqual(other._float); }
 
+    toString() { return `${this._float._sign} | ${this._float._power.join("")} | ${this._float._mantisa.join("")}`; }
+
     static _checkRange(number) {
         const num = Math.abs(number);
 

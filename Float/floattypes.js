@@ -8,6 +8,7 @@ class NormalFloat extends FloatBase {
             return new InfinityFloat(sign);
         super(sign, power, mantisa);
     }
+    
     toDecimal() { return super.toDecimal(1); }
 
     add(other) {
@@ -41,6 +42,7 @@ class SubNormalFloat extends FloatBase {
             return new ZeroFloat();
         super(sign, power, mantisa);
     }
+    
     toDecimal() { return super.toDecimal(0); }
 
     add(other) {

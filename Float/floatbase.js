@@ -46,7 +46,7 @@ class FloatBase {
         
         if (this._sign !== other._sign) return this.add(other.unaryMinus());
         
-        const [bigger_power, bigger_sign]  = first_bigger 
+        const [bigger_power, bigger_sign] = first_bigger 
             ? [this._power, this._sign] : [other._power, (other._sign + 1) % 2];
         
         const [int1, float1, int2, float2] = [
