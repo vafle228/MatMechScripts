@@ -3,9 +3,9 @@ const EnglishFreq = require("./LanguageFreq/englishfreq");
 
 const VizinerEncode = require("./VizinerCode/encode");
 
-const encoder = new VizinerEncode("семен", "rus");
+const encoder = new VizinerEncode("Семен", "rus");
 
-console.log(encoder.encodeText("Привет Семен".toLocaleLowerCase()))
+console.log(encoder.encodeText("Привет Семен"))
 
 // EnglishFreq.initEnglishFreq();
 // RussianFreq.initRussianFreq();
