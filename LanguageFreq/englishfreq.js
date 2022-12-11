@@ -17,7 +17,9 @@ class EnglishFreq {
 
         console.info("Calculating frequency ...");
         this.freq = new FrequencyCounter("a", "z").countFrequency(freq_text);
-        console.info("Done!"); 
+        console.info("Done!");
+
+        return this.freq;
     }
 }
 

@@ -18,6 +18,8 @@ class RussianFreq {
         console.info("Calculating frequency ...");
         this.freq = new FrequencyCounter("а", "я").countFrequency(freq_text);
         console.info("Done!"); 
+
+        return this.freq;
     }
 }
 
