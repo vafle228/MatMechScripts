@@ -4,21 +4,13 @@ class FrequencyCounter {
         this._start_symb = start_symb.charCodeAt(0);
     }
 
-    _isAlphabet(char) {
-        const char_code = char.charCodeAt(0)
-        return (this._start_symb <= char_code) && (char_code <= this._end_symb)
-    }
-
-    countFrequency(text) {
-        const frequency = new Object();
+    countFrequency(text, start = 0, offset = 1) {
+        const frequency = this._initFrequency();
         
         let text_len = 0;
-        for (let i = 0; i < text.length; i++) {
-            if (this._isAlphabet(text[i])) {
-                if (frequency[text[i]] === undefined)
-                    frequency[text[i]] = 0;
+        for (let i = start; i < text.length; i += offset) {
+            if (this._isAlphabet(text[i]))
                 frequency[text[i]] += 1; text_len += 1;
-            }
         }
 
         for (let i = this._start_symb; i <= this._end_symb; i++) {
@@ -26,6 +18,18 @@ class FrequencyCounter {
             frequency[cur_char] = frequency[cur_char] / text_len;
         }
         return frequency;
+    }
+
+    _isAlphabet(char) {
+        const char_code = char.charCodeAt(0)
+        return (this._start_symb <= char_code) && (char_code <= this._end_symb)
+    }
+
+    _initFrequency() {
+        const frequency_obj = new Object();
+        for (let a = this._start_symb; a <= this._end_symb; a++)
+            frequency_obj[String.fromCharCode(a)] = 0;
+        return frequency_obj;
     }
 }
 

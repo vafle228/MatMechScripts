@@ -12,7 +12,7 @@ class VizinerBase {
 
         this._end = end.charCodeAt(0);
         this._start = start.charCodeAt(0);
-        this._alpha_len = this._end - this._start;
+        this._alpha_len = this._end - this._start + 1;
     }
 
     encodeText(text) {
@@ -30,14 +30,14 @@ class VizinerBase {
         return result;
     }
 
-    charOffset(char, key) { console.error("Override this method"); }
+    charOffset(char, key) { console.error("Override this"); }
 
     _encodeChar(char, key) {
-        const char_offset = this.charOffset(char, key);
+        const char_offset = this.charOffset(char, key) % this._alpha_len;
 
-        if (char_offset < 0)
-            return String.fromCharCode(this._end + char_offset % this._alpha_len);
-        return String.fromCharCode(this._start + char_offset % this._alpha_len);
+        if (char_offset >= 0)
+            return String.fromCharCode(this._start + char_offset);
+        return String.fromCharCode(this._end + char_offset + 1);
     }
 
     _isAlphabet(char) {
