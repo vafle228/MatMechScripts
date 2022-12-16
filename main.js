@@ -1,6 +1,10 @@
 const fs = require("fs");
 const AutomatonConstructor = require("./Automaton/automatonconstructor");
 
+function validateData(input, substring, count) {
+    return !isNaN(count) && fs.existsSync(input) && fs.existsSync(substring);
+}
+
 let count_time = false;
 let substr_count = Infinity;
 let print_automaton = false;
@@ -18,22 +22,23 @@ while (is_still_flags){
 
 const [str_file, substr_file] = [...process.argv.slice(i)];
 
-const string = fs.readFileSync(str_file, "utf-8");
-const sub_string = fs.readFileSync(substr_file, "utf-8");
+if (validateData(str_file, substr_file, substr_count)) {
+    const string = fs.readFileSync(str_file, "utf-8");
+    const sub_string = fs.readFileSync(substr_file, "utf-8");
 
-const automaton = AutomatonConstructor.constructAutomaton(sub_string);
+    const automaton = AutomatonConstructor.constructAutomaton(sub_string);
 
-const start_time = new Date().getTime();
+    const start_time = new Date().getTime();
 
-let count = 0;
-for (let i = 0; i < string.length; i++) {
-    if (count === substr_count) break;
-    count += automaton.nextStep(string[i]);
+    for (let i = 0; i < string.length; i++) {
+        if (count === substr_count) break;
+        if (automaton.nextStep(string[i])) console.log(i);
+    }
+
+    const end_time = new Date().getTime();
+    if (count_time) console.log(`Execute Time: ${end_time - start_time}ms`);
+
+    if (print_automaton) console.log(`Automaton:\n${automaton.toString()}`);
 }
 
-console.log("All entries of substr: ", count)
-
-const end_time = new Date().getTime();
-if (count_time) console.log(`Execute Time: ${end_time - start_time}ms`);
-
-if (print_automaton) console.log(`Automaton:\n${automaton.toString()}`);
+else { console.log("Something went wrong! Check your args"); }

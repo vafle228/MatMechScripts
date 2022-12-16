@@ -6,7 +6,7 @@ class Automaton {
     }
 
     nextStep(letter) {
-        const return_val = +(this._current_step === this._substr_len);
+        const return_val = this._current_step === this._substr_len;
         this._current_step = this._automaton[this._current_step][letter] || 0;
 
         return return_val;
