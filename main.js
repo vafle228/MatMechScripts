@@ -1,8 +1,8 @@
 const fs = require("fs");
 const findSubstring = require("./boiermoor");
 
-function validateData(input, count) {
-    return !isNaN(count) && fs.existsSync(input);
+function validateData(input, substring, count) {
+    return !isNaN(count) && fs.existsSync(input) && fs.existsSync(substring);
 }
 
 let count_time = false;
@@ -20,7 +20,7 @@ while (is_still_flags){
 
 const [str_file, substr_file] = [...process.argv.slice(i)];
 
-if (validateData(str_file, substr_count)) {
+if (validateData(str_file, substr_file, substr_count)) {
     const string = fs.readFileSync(str_file, "utf-8");
     const substring = fs.readFileSync(substr_file, "utf-8");
     
