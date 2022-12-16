@@ -41,7 +41,7 @@ class GoodSuffixHeuristic extends IHeuristic{
         return (k > 1 && string[k - 2] !== string[m - len - 1]) || (k <= 1);
     }
 
-    getOffset(char) { return this._offset_table[char] ?? this._max_offset; }
+    getOffset(char, l) { return this._offset_table[char] ?? this._max_offset; }
 }
 
 module.exports = GoodSuffixHeuristic;
