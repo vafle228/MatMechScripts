@@ -1,3 +1,10 @@
+const fs = require("fs");
+
+const SumHash = require("./HashFunctions/sumhash");
+const SquareSumHash = require("./HashFunctions/squaresumhash");
+const RubyKarpHash = require("./HashFunctions/rubykarphash");
+const BruteForceHash = require("./HashFunctions/bruteforcehash");
+
 function substringFindWrapper(hash_object, string, sub_string) {
     let str_hash, i = 0;
     const substr_hash = hash_object.hash(sub_string);
@@ -23,12 +30,11 @@ function substringFindWrapper(hash_object, string, sub_string) {
     };
 }
 
-const fs = require("fs");
+function validateData(input, substr, hash_code, count) {
+    if (!["h1", "h2", "h3", "b"].includes(hash_code)) return false;
 
-const SumHash = require("./HashFunctions/sumhash");
-const SquareSumHash = require("./HashFunctions/squaresumhash");
-const RubyKarpHash = require("./HashFunctions/rubykarphash");
-const BruteForceHash = require("./HashFunctions/bruteforcehash");
+    return !isNaN(count) && fs.existsSync(input) && fs.existsSync(substr);
+}
 
 let count_time = false;
 let substr_count = Infinity;
@@ -47,29 +53,33 @@ while (is_still_flags){
 
 const [hash_code, str_file, substr_file] = [...process.argv.slice(i)];
 
-const string = fs.readFileSync(str_file, "utf-8");
-const sub_string = fs.readFileSync(substr_file, "utf-8");
+if (validateData(str_file, substr_file, hash_code, substr_count)) {
+    const string = fs.readFileSync(str_file, "utf-8");
+    const sub_string = fs.readFileSync(substr_file, "utf-8");
 
-const hash_object = {
-    h1: SumHash,
-    h2: SquareSumHash,
-    h3: RubyKarpHash,
-}[hash_code] || BruteForceHash;
+    const hash_object = {
+        h1: SumHash,
+        h2: SquareSumHash,
+        h3: RubyKarpHash,
+        b: BruteForceHash
+    }[hash_code] || BruteForceHash;
+    const substr_finder = substringFindWrapper(hash_object, string, sub_string);
 
-const substr_finder = substringFindWrapper(hash_object, string, sub_string);
+    let collisions = 0;
+    const start_time = new Date().getTime();
 
-let collisions = 0;
-let start_time = new Date().getTime();
+    while (substr_count > 0){
+        let result = substr_finder();
 
-while (substr_count > 0){
-    let result = substr_finder();
+        if (result === undefined) break;
 
-    if (result === undefined) break;
+        console.log(result); substr_count--;
+    }
 
-    console.log(result); substr_count--;
+    const end_time = new Date().getTime();
+    if (count_time) console.log(`Execute Time: ${end_time - start_time}ms`);
+
+    if (print_collisions) console.log(`Collisions: ${collisions}`);
 }
 
-let end_time = new Date().getTime();
-if (count_time) console.log(`Execute Time: ${end_time - start_time}ms`);
-
-if (print_collisions) console.log(`Collisions: ${collisions}`);
+else { console.log("Something went wrong! Check your args"); }
