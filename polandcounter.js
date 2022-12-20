@@ -23,7 +23,7 @@ function countPolandNotation(notation) {
         }
         else { stack.push(exp[i]); }
     }
-    return stack.pop();
+    return stack;
 }
 
 module.exports = countPolandNotation;
