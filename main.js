@@ -36,7 +36,7 @@ if (validateArguments(operation, input)) {
         fs.writeFileSync(output, codeText(new Map(codes), text_data));
     }
 
-    if (operation === "decode") {
+    if (operation === "decode" && fs.existsSync(code_file)) {
         const codes = fs
             .readFileSync(code_file, "utf-8")
             .split("\n")
