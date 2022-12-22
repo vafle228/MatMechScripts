@@ -43,5 +43,6 @@ if (validateArguments(operation, input)) {
             .map((val) => val.split(": ").reverse());
         fs.writeFileSync(output, codeText(new Map(codes), text_data));
     }
+    else { console.log("Arguments Error!"); }
 }
 else { console.log("Arguments Error!"); }
