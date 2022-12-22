@@ -5,4 +5,6 @@ export default class GameInstance {
         for (let i = 0; i < width; i++)
             this._field[i] = new Array(height);
     }
+
+    
 }
