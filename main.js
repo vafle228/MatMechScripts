@@ -30,7 +30,7 @@ if (validateData(str_file, substr_file, substr_count)) {
 
     let result = 0;
     while (substr_count > 0) {
-        result = boiermoor(result + substring.length);
+        result = boiermoor();
 
         if (result === undefined) break;
 
