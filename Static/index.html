@@ -1,12 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Life</title>
-</head>
-<body>
-    <canvas></canvas>
-</body>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Game "Life"</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="lifestyles.css">
+	</head>	
+	<body>
+		<div class="game">
+			<div class="buttons">
+				<input type="button" value="next" onclick="next()">
+				<input type="button" value="start" onclick="start()">
+				<input type="button" value="stop" onclick="stop()">
+				<input type="button" value="random" onclick="random()">
+			</div>
+			<div class="size">
+				<input type="text" id="row" value=40>
+				<input type="text" id="col" value=40>
+				<input type="button" class="wide" value="new world" onclick="newGameInstance()">
+			</div>
+			<table id="field"><tbody></tbody></table>
+		</div>
+	</body>
+	<script src="../GameLife/cell.js"></script>
+	<script src="../GameLife/context.js"></script>
+	<script src="../GameLife/gameinstance.js"></script>
+	
+	<script src="../GameLife/main.js"></script>
 </html>
