@@ -30,9 +30,10 @@ if (validateData(str_file, substr_file, substr_count)) {
 
     const start_time = new Date().getTime();
 
+    let count = 0;
     for (let i = 0; i < string.length; i++) {
         if (count === substr_count) break;
-        if (automaton.nextStep(string[i])) console.log(i);
+        if (automaton.nextStep(string[i])) { console.log(i - sub_string.length); count++; }
     }
 
     const end_time = new Date().getTime();
