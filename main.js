@@ -51,6 +51,7 @@ while (is_still_flags){
     };
 }
 
+let collisions = 0;
 const [hash_code, str_file, substr_file] = [...process.argv.slice(i)];
 
 if (validateData(str_file, substr_file, hash_code, substr_count)) {
@@ -65,7 +66,6 @@ if (validateData(str_file, substr_file, hash_code, substr_count)) {
     }[hash_code] || BruteForceHash;
     const substr_finder = substringFindWrapper(hash_object, string, sub_string);
 
-    let collisions = 0;
     const start_time = new Date().getTime();
 
     while (substr_count > 0){
