@@ -36,12 +36,13 @@ if (validateArguments(operation, input)) {
         fs.writeFileSync(output, codeText(new Map(codes), text_data));
     }
 
-    if (operation === "decode" && fs.existsSync(code_file)) {
+    else if (operation === "decode" && fs.existsSync(code_file)) {
         const codes = fs
             .readFileSync(code_file, "utf-8")
             .split("\n")
             .map((val) => val.split(": ").reverse());
         fs.writeFileSync(output, codeText(new Map(codes), text_data));
     }
+    else { console.log("Arguments Error!"); }
 }
 else { console.log("Arguments Error!"); }
